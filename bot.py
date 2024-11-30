@@ -47,5 +47,4 @@ def unban_user(message):
     else:
         bot.send_message(message.chat.id, "Используйте команду /unban <user_id>")
 
-
 bot.infinity_polling(none_stop=True)
