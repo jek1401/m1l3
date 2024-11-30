@@ -22,24 +22,30 @@ def ban_user(message):
             bot.reply_to(message, f"Пользователь @{message.reply_to_message.from_user.username} был забанен.")
     else:
         bot.reply_to(message, "Эта команда должна быть использована в ответ на сообщение пользователя, которого вы хотите забанить.")
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 952c4eb5db938c8dea0f848dbe6a7165f62a9ce7
 @bot.message_handler(func=lambda message: True)
 def ban_for_links(message):
     if "https://" in message.text or "http://" in message.text:
         bot.ban_chat_member(message.chat.id, message.from_user.id)
         bot.reply_to(message, "Пользователь забанен за отправку ссылки.")
-<<<<<<< HEAD
 
 @bot.message_handler(content_types=['new_chat_members'])
 def make_some(message):
     bot.send_message(message.chat.id, 'I accepted a new user!')
     bot.approve_chat_join_request(message.chat.id, message.from_user.id)
 
-=======
-        
->>>>>>> 952c4eb5db938c8dea0f848dbe6a7165f62a9ce7
+@bot.message_handler(commands=['unban'])
+def unban_user(message):
+    if len(message.text.split()) == 2:
+        user_id = int(message.text.split()[1])
+        admin = bot.get_chat_member(message.chat.id, message.from_user.id)
+        if admin.status in ['administrator', 'creator']:
+            bot.unban_chat_member(message.chat.id, user_id)
+            bot.send_message(message.chat.id, f"Пользователь с ID {user_id} разбанен.")
+        else:
+            bot.send_message(message.chat.id, "У вас нет прав на разбан.")
+    else:
+        bot.send_message(message.chat.id, "Используйте команду /unban <user_id>")
+
+
 bot.infinity_polling(none_stop=True)
